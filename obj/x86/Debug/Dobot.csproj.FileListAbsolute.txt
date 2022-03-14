@@ -1,0 +1,11 @@
+C:\Users\LENOVO\source\repos\Dobot\bin\x86\Debug\Dobot.exe.config
+C:\Users\LENOVO\source\repos\Dobot\bin\x86\Debug\Dobot.exe
+C:\Users\LENOVO\source\repos\Dobot\bin\x86\Debug\Dobot.pdb
+C:\Users\LENOVO\source\repos\Dobot\obj\x86\Debug\Dobot.csproj.AssemblyReference.cache
+C:\Users\LENOVO\source\repos\Dobot\obj\x86\Debug\Dobot.csproj.SuggestedBindingRedirects.cache
+C:\Users\LENOVO\source\repos\Dobot\obj\x86\Debug\Dobot.Form1.resources
+C:\Users\LENOVO\source\repos\Dobot\obj\x86\Debug\Dobot.Properties.Resources.resources
+C:\Users\LENOVO\source\repos\Dobot\obj\x86\Debug\Dobot.csproj.GenerateResource.cache
+C:\Users\LENOVO\source\repos\Dobot\obj\x86\Debug\Dobot.csproj.CoreCompileInputs.cache
+C:\Users\LENOVO\source\repos\Dobot\obj\x86\Debug\Dobot.exe
+C:\Users\LENOVO\source\repos\Dobot\obj\x86\Debug\Dobot.pdb
