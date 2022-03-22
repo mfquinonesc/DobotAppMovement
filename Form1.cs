@@ -18,14 +18,35 @@ namespace Dobot
     {
         private Timer myTimer;
         private bool estado = true;
+        private Timer timeout;
+        private int time;
+
+
         public Form1()
         {
             InitializeComponent();
 
+          
+
+            this.time = 0;
+
+            this.timeout = new Timer();
+            timeout.Tick += new EventHandler(timeout_tick);
+            timeout.Interval = 1000;
+            
+
             myTimer = new Timer();
             myTimer.Tick += new EventHandler(timer_Tick);
             myTimer.Interval = 2000;
+
         }
+
+        private void timeout_tick(object sender, EventArgs e)
+        {
+            time = time + 1000;
+            this.label3.Text= time.ToString();
+        }
+
 
        private void timer_Tick(object sender, EventArgs e)
         {
@@ -60,8 +81,9 @@ namespace Dobot
                 // El error 2  quiere decir que ya se esta ejecutando
             }
             else
-            {
-                this.label1.Text = "coneccion: "+ret.ToString();
+            { 
+                this.setHomeParams();
+                this.label1.Text = "coneccion: "+ret.ToString();               
             }
 
         }
@@ -97,7 +119,6 @@ namespace Dobot
             currentCmd.cmd = (byte)3;
             currentCmd.isJoint = (byte)0;
             DobotDll.SetJOGCmd(ref currentCmd, false, ref cmdIndex);
-
         }
 
         //Metodo para mover Y hacia der CDM 4
@@ -108,7 +129,6 @@ namespace Dobot
             currentCmd.cmd = (byte)4;
             currentCmd.isJoint = (byte)0;
             DobotDll.SetJOGCmd(ref currentCmd, false, ref cmdIndex);
-
         }
 
 
@@ -154,8 +174,63 @@ namespace Dobot
             DobotDll.SetJOGCmd(ref currentCmd, false, ref cmdIndex);
         }
 
+        private void SetParam()
+        {            
+            UInt64 cmdIndex = 0;
+            JOGJointParams jsParam;
+            jsParam.velocity = new float[] { 200, 200, 200, 200 };
+            jsParam.acceleration = new float[] { 200, 200, 200, 200 };
+            DobotDll.SetJOGJointParams(ref jsParam, false, ref cmdIndex);
+
+            JOGCommonParams jdParam;
+            jdParam.velocityRatio = 100;
+            jdParam.accelerationRatio = 100;
+            DobotDll.SetJOGCommonParams(ref jdParam, false, ref cmdIndex);
+        }
+
+        private void SetHome() {
+            // [DllImport("DobotDll.dll", EntryPoint = "SetHOMECmd", CallingConvention = CallingConvention.Cdecl)]
+            // public static extern int SetHOMECmd(ref HOMECmd homeCmd, bool isQueued, ref UInt64 queuedCmdIndex);
+            HOMECmd homeCmd;
+            homeCmd.temp = 0;
+            bool isQueued = false;
+            UInt64 cmdIndex = 0;
+            this.label2.Text= DobotDll.SetHOMECmd(ref homeCmd, isQueued, ref cmdIndex).ToString();
+        }
 
 
+        private void getHomeParams() {
+            HOMEParams homeparams;
+            homeparams.r = 0;
+            homeparams.z = 0;
+            homeparams.y = 0;
+            homeparams.x = 0;
+            this.label2.Text = DobotDll.GetHOMEParams(ref homeparams).ToString();
+            this.label1.Text = "[" + homeparams.r.ToString()+ "," + homeparams.x.ToString() + "," + homeparams.y.ToString() + "," + homeparams.z.ToString() + "]";
+             
+        }
+
+        private void setHomeParams() {
+
+            //x = 250
+            //y = 0
+            //z = 50
+            //r = 0
+
+            UInt64 cmdIndex = 0;
+            HOMEParams homeparams;
+            homeparams.r = 0;
+            homeparams.z = 50;
+            homeparams.y = 0;
+            homeparams.x = 250;
+            this.label2.Text = DobotDll.SetHOMEParams(ref homeparams,false,ref cmdIndex).ToString();
+            this.label1.Text = "[" + homeparams.r.ToString() + "," + homeparams.x.ToString() + "," + homeparams.y.ToString() + "," + homeparams.z.ToString() + "]";
+        }
+
+
+        private void Disconnect() {
+            DobotDll.DisconnectDobot();        
+        }
 
 
         private void button2_Click(object sender, EventArgs e)
@@ -206,6 +281,48 @@ namespace Dobot
         private void button11_Click(object sender, EventArgs e)
         {
             this.rotarIzq();
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            UInt64 cmdIndex = 0;
+            DobotDll.SetEndEffectorSuctionCup(true, true, false, ref cmdIndex);
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            this.SetParam();
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            this.SetHome();
+            this.label2.Text = "end";
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            this.getHomeParams();
+            this.label2.Text = "end!";
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            this.setHomeParams();
+            this.label2.Text = "end!!";
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            this.Disconnect();
+            this.label1.Text = "Disconect";
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            
+
+            
         }
     }
 
